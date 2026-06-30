@@ -1,0 +1,43 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: failover-operator-manager-role
+rules:
+  - apiGroups:
+      - ops.failover.dev
+    resources:
+      - failoverapps
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - ops.failover.dev
+    resources:
+      - failoverapps/status
+    verbs:
+      - get
+      - update
+      - patch
+  - apiGroups:
+      - ops.failover.dev
+    resources:
+      - failoverapps/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete

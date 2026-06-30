@@ -1,0 +1,42 @@
+name: failover-app
+type: charm
+title: FailoverApp Charmed Operator
+summary: A minimal Juju (Charmed) operator that runs a workload with a minimum-healthy floor.
+description: |
+  A small Kubernetes charm, written with the Juju ops framework, that deploys a
+  containerised workload and exposes a minimum-healthy replica setting through
+  Juju configuration. It mirrors the FailoverApp controller-runtime operator in
+  this repository, built to learn and compare the two operator models: a native
+  Kubernetes controller vs. a Charmed operator driven by Juju.
+
+bases:
+  - build-on:
+      - name: ubuntu
+        channel: "22.04"
+    run-on:
+      - name: ubuntu
+        channel: "22.04"
+
+assumes:
+  - k8s-api
+
+containers:
+  workload:
+    resource: workload-image
+
+resources:
+  workload-image:
+    type: oci-image
+    description: OCI image for the workload container.
+    upstream-source: nginx:1.27
+
+config:
+  options:
+    min-healthy:
+      type: int
+      default: 2
+      description: Available units required before the application reports active.
+    port:
+      type: int
+      default: 80
+      description: Port the workload listens on.

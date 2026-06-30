@@ -1,0 +1,31 @@
+name: failover-operator
+base: core22
+version: '0.1.0'
+summary: FailoverApp Kubernetes operator manager
+description: |
+  The manager binary for the FailoverApp operator, packaged as a strictly
+  confined snap. It reconciles FailoverApp custom resources against owned
+  Deployments and reports readiness against a minimum-healthy replica floor.
+
+grade: stable
+confinement: strict
+
+architectures:
+  - build-on: amd64
+
+apps:
+  failover-operator:
+    command: bin/manager
+    plugs:
+      - network
+      - network-bind
+      - home
+
+parts:
+  manager:
+    plugin: go
+    source: .
+    build-snaps:
+      - go/1.22/stable
+    organize:
+      manager: bin/manager

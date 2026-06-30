@@ -1,0 +1,9 @@
+apiVersion: ops.failover.dev/v1alpha1
+kind: FailoverApp
+metadata:
+  name: demo
+spec:
+  image: nginx:1.27
+  replicas: 3
+  minHealthy: 2
+  port: 80
